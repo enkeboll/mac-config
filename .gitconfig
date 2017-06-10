@@ -1,0 +1,28 @@
+[user]
+  name = Andy Enkeboll
+  email = 
+
+[github]
+  user = enkeboll
+
+[alias]
+  st = status
+  ci = commit
+  br = branch
+  co = checkout
+  df = diff
+  lg = log -p
+  lsd = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  this = !git init && git add . && git commit -m \"initial commit\"
+  r  = !git ls-files -z --deleted | xargs -0 git rm
+  alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
+  ignore=!([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
+  master = checkout master
+  recent = for-each-ref --format='%(refname:short)' --sort=-authordate --count=8 refs/heads/
+  graph = log --graph --all --date=local --format="%C(auto)%h %an %Cblue%ad%Creset %s %C(auto)%+D"
+
+[push]
+  default = simple
+
+[credential]
+  helper = osxkeychain
