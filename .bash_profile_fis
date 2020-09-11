@@ -1,0 +1,82 @@
+# source ~/.profile
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+
+if [ -f ~/.gitprompt.sh ]; then
+    GIT_PROMPT_THEME=Default
+    . ~/.gitprompt.sh
+fi
+
+if [ -f ~/.bash_aliases ]; then
+    source ~/.bash_aliases
+fi
+
+
+# if emacs if available then use it
+which emacs > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    EDITOR="emacs"
+    export EDITOR
+fi
+
+# source virtualenvwrapper
+export WORKON_HOME=$HOME/.virtualenvs
+# export VIRTUALENV_PYTHON=/usr/local/bin/python3
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+source /usr/local/bin/virtualenvwrapper.sh
+
+# export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+
+# colors
+export CLICOLOR=1
+export LSCOLORS=ExBxhxDxfxhxhxhxhxcxcx
+
+if [ -z "$PROMPT_HOST" ]; then
+   PROMPT_HOST="\\h"
+fi
+
+# screen
+if [ $TERM == "screen" ]; then
+    SCREEN_PROMPT="👻  "
+fi
+
+# make the prompt go to the first column always (remove ^C)
+PS1="\[\033[G\]$PS1"
+
+# load powerline
+# https://medium.freecodecamp.org/jazz-up-your-bash-terminal-a-step-by-step-guide-with-pictures-80267554cb22
+export PATH=$PATH:$HOME/Library/Python/3.7/bin
+powerline-daemon -q
+POWERLINE_BASH_CONTINUATION=1
+POWERLINE_BASH_SELECT=1
+. /Users/enkeboll/Library/Python/3.7/lib/python/site-packages/powerline/bindings/bash/powerline.sh
+eval "$(rbenv init -)"
+eval "$(rbenv init -)"
+
+# Spark
+export SPARK_HOME=/usr/local/opt/apache-spark/libexec
+export PYTHONPATH=/usr/local/opt/apache-sparklibexec/python/:$PYTHONPATH
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+export PYSPARK_PYTHON=/usr/local/bin/python3
+export PYSPARK_DRIVER_PYTHON=ipython3
+
+
+# added by Anaconda3 2019.10 installer
+# >>> conda init >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/opt/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    \eval "$__conda_setup"
+else
+    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/anaconda3/etc/profile.d/conda.sh"
+        CONDA_CHANGEPS1=false conda activate base
+    else
+        \export PATH="/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda init <<<
